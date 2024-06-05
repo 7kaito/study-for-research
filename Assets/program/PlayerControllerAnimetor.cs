@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     Vector3 speed = Vector3.zero; //3次元の値を一回作った
     Vector3 rotation = Vector3.zero;
 
+    public Animator PlayerAnimator;
+    bool isRun;
+
     void Start()
     {
         
@@ -27,6 +30,8 @@ public class PlayerController : MonoBehaviour
     {
         speed = Vector3.zero;
         rotation = Vector3.zero;
+        isRun = false; //何もしてない時はアニメーションが実行されない
+
         if (Input.GetKey(KeyCode.W))
         {
             rotation.y = 0;
@@ -48,12 +53,14 @@ public class PlayerController : MonoBehaviour
             MoveSet();
         }
         transform.Translate(speed); //自分の向いている方向に進む
+        PlayerAnimator.SetBool("run", isRun);
     }
 
     void MoveSet()
     {
         speed.z = PlayerSpeed; //z軸にスピードをつける(最初は0,0,0の値が設定されている)
         transform.eulerAngles = Camera.transform.eulerAngles + rotation; //カメラの向いている方向と設定した値の方向を向く
+        isRun = true; //動かした時にアニメーションが実行される
     }
 
     void Rotation()
